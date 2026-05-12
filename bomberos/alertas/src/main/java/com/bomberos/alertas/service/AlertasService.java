@@ -44,4 +44,6 @@ public class AlertasService {
         Alerta guardada = alertaRepository.save(alerta);
         return mapToDTO(guardada);
     }
+
+    public void eliminarAlerta(Long id) { alertaRepository.deleteById(id); }
 }

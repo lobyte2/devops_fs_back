@@ -25,4 +25,9 @@ public class AlertaController {
     public AlertaResponseDTO crearAlerta(@Valid @RequestBody AlertaRequestDTO requestDTO) {
         return alertaService.crearAlerta(requestDTO);
     }
+
+    @DeleteMapping("/{id}")
+    public void eliminarAlerta(@PathVariable Long id) {
+        alertaService.eliminarAlerta(id);
+    }
 }

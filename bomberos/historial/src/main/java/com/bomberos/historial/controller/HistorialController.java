@@ -1,6 +1,7 @@
 package com.bomberos.historial.controller;
 
-import com.bomberos.historial.model.Historial;
+import com.bomberos.historial.dto.HistorialRequestDTO;
+import com.bomberos.historial.dto.HistorialResponseDTO;
 import com.bomberos.historial.service.HistorialService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +17,12 @@ public class HistorialController {
     private HistorialService historialService;
 
     @GetMapping
-    public List<Historial> listar() {
+    public List<HistorialResponseDTO> listar() {
         return historialService.listar();
     }
 
-    // Nuevo endpoint para crear un registro en el historial
     @PostMapping
-    public Historial guardar(@Valid @RequestBody Historial historial) {
-        return historialService.guardar(historial);
+    public HistorialResponseDTO guardar(@Valid @RequestBody HistorialRequestDTO requestDTO) {
+        return historialService.guardar(requestDTO);
     }
 }

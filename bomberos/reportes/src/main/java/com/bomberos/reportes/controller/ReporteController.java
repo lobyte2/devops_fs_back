@@ -1,9 +1,12 @@
 package com.bomberos.reportes.controller;
 
+import com.bomberos.reportes.dto.ReporteRequestDTO;
+import com.bomberos.reportes.dto.ReporteResponseDTO;
 import com.bomberos.reportes.model.Reporte;
 import com.bomberos.reportes.service.ReporteService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,17 +20,24 @@ public class ReporteController {
     private ReporteService reporteService;
 
     @GetMapping
-    public List<Reporte> listarReportes() {
-        return reporteService.obtenerReportes();
+    public ResponseEntity<List<ReporteResponseDTO>> listarReportes() {
+        return ResponseEntity.ok(reporteService.obtenerTodos());
     }
 
     @PostMapping
-    public Reporte crearReporte(@Valid @RequestBody Reporte reporte) {
-        return reporteService.crearReporte(reporte);
+    public ResponseEntity<ReporteResponseDTO> crearReporte(@RequestBody ReporteRequestDTO request) {
+        return ResponseEntity.ok(reporteService.crearReporte(request));
     }
 
     @DeleteMapping("/{id}")
-    public void eliminarReporte(@PathVariable UUID id) {
+    public ResponseEntity<Void> eliminarReporte(@PathVariable String id) {
         reporteService.eliminarReporte(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ReporteResponseDTO> actualizarReporte(@PathVariable String id, @RequestBody ReporteRequestDTO requestDTO) {
+        ReporteResponseDTO actualizado = reporteService.actualizarReporte(id, requestDTO);
+        return ResponseEntity.ok(actualizado);
     }
 }

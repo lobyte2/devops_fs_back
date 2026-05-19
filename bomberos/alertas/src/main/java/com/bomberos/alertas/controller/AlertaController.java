@@ -1,6 +1,7 @@
 package com.bomberos.alertas.controller;
 
-import com.bomberos.alertas.model.Alerta;
+import com.bomberos.alertas.dto.AlertaRequestDTO;
+import com.bomberos.alertas.dto.AlertaResponseDTO;
 import com.bomberos.alertas.service.AlertasService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +17,17 @@ public class AlertaController {
     private AlertasService alertaService;
 
     @GetMapping
-    public List<Alerta> obtenerAlertas() {
+    public List<AlertaResponseDTO> obtenerAlertas() {
         return alertaService.obtenerAlertas();
     }
 
     @PostMapping
-    public Alerta crearAlerta(@Valid @RequestBody Alerta alerta) {
-        return alertaService.crearAlerta(alerta);
+    public AlertaResponseDTO crearAlerta(@Valid @RequestBody AlertaRequestDTO requestDTO) {
+        return alertaService.crearAlerta(requestDTO);
+    }
+
+    @DeleteMapping("/{id}")
+    public void eliminarAlerta(@PathVariable Long id) {
+        alertaService.eliminarAlerta(id);
     }
 }

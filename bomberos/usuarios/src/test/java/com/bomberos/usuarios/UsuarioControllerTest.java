@@ -4,59 +4,70 @@ import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.bomberos.usuarios.controller.UsuarioController;
-import com.bomberos.usuarios.model.Usuario;
+import com.bomberos.usuarios.dto.UsuarioRequestDTO;
+import com.bomberos.usuarios.dto.UsuarioResponseDTO;
+import com.bomberos.usuarios.service.UsuarioService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import com.bomberos.usuarios.repository.UsuarioRepository;
 
 import java.util.Arrays;
 import java.util.List;
 
-@ExtendWith(MockitoExtension.class) // Habilita el uso de Mockito
+@ExtendWith(MockitoExtension.class)
 class UsuarioControllerTest {
 
     @Mock
-    private UsuarioRepository usuarioRepository; // Crea un simulacro del repositorio
+    private UsuarioService usuarioService;
 
     @InjectMocks
-    private UsuarioController usuarioController; // Inyecta el mock en el controlador
+    private UsuarioController usuarioController;
 
     @Test
     void testObtenerTodosLosUsuarios() {
-        // 1. Configuración (GIVEN)
-        Usuario user1 = new Usuario();
+        // Arrange
+        UsuarioResponseDTO user1 = new UsuarioResponseDTO();
+        user1.setId("uuid-1");
         user1.setNombre("Juan");
-        Usuario user2 = new Usuario();
+
+        UsuarioResponseDTO user2 = new UsuarioResponseDTO();
+        user2.setId("uuid-2");
         user2.setNombre("Pedro");
 
-        // Definimos qué debe devolver el mock cuando se llame a findAll()
-        when(usuarioRepository.findAll()).thenReturn(Arrays.asList(user1, user2));
+        when(usuarioService.obtenerUsuarios()).thenReturn(Arrays.asList(user1, user2));
 
-        // 2. Ejecución (WHEN)
-        List<Usuario> resultado = usuarioController.obtenerTodosLosUsuarios();
+        // Act
+        List<UsuarioResponseDTO> resultado = usuarioController.obtenerTodosLosUsuarios();
 
-        // 3. Verificación (THEN)
+        // Assert
         assertNotNull(resultado);
         assertEquals(2, resultado.size());
         assertEquals("Juan", resultado.get(0).getNombre());
-
-        // Verifica que el método del repositorio se llamó exactamente una vez
-        verify(usuarioRepository, times(1)).findAll();
+        verify(usuarioService, times(1)).obtenerUsuarios();
     }
 
     @Test
     void testCrearUsuario() {
-        Usuario nuevoUsuario = new Usuario();
-        nuevoUsuario.setNombre("Maria");
+        // Arrange
+        UsuarioRequestDTO request = new UsuarioRequestDTO();
+        request.setNombre("Maria");
+        request.setEmail("maria@mail.com");
 
-        when(usuarioRepository.save(any(Usuario.class))).thenReturn(nuevoUsuario);
+        UsuarioResponseDTO response = new UsuarioResponseDTO();
+        response.setId("uuid-3");
+        response.setNombre("Maria");
+        response.setEmail("maria@mail.com");
 
-        Usuario resultado = usuarioController.crearUsuario(nuevoUsuario);
+        when(usuarioService.crearUsuario(any(UsuarioRequestDTO.class))).thenReturn(response);
 
+        // Act
+        UsuarioResponseDTO resultado = usuarioController.crearUsuario(request);
+
+        // Assert
+        assertNotNull(resultado);
         assertEquals("Maria", resultado.getNombre());
-        verify(usuarioRepository).save(nuevoUsuario);
+        verify(usuarioService, times(1)).crearUsuario(any(UsuarioRequestDTO.class));
     }
 }

@@ -5,21 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c107d25a-5a9a-4b67-8e0d-eb978f778574" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/Caso_semetral_FS.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/compiler.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/copilot.data.migration.ask2agent.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/discord.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/encodings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/jarRepositories.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/vcs.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api-gateway/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/api-gateway/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/eureka-server/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/eureka-server/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/eureka-server/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/eureka-server/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/alertas/src/main/java/com/bomberos/alertas/controller/AlertaController.java" beforeDir="false" afterPath="$PROJECT_DIR$/alertas/src/main/java/com/bomberos/alertas/controller/AlertaController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/alertas/src/main/java/com/bomberos/alertas/service/AlertasService.java" beforeDir="false" afterPath="$PROJECT_DIR$/alertas/src/main/java/com/bomberos/alertas/service/AlertasService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -80,7 +68,7 @@
     &quot;Spring Boot.ReportesApplication.executor&quot;: &quot;Run&quot;,
     &quot;Spring Boot.UsuariosApplication.executor&quot;: &quot;Run&quot;,
     &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;bk1&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
@@ -110,21 +98,6 @@
         <option value="QuarkusRunConfigurationType" />
         <option value="SpringBootApplicationConfigurationType" />
       </set>
-    </option>
-    <option name="configurationStatuses">
-      <map>
-        <entry key="SpringBootApplicationConfigurationType">
-          <value>
-            <map>
-              <entry key="AlertasApplication" value="STOPPED" />
-              <entry key="HistorialApplication" value="STOPPED" />
-              <entry key="MonitoreoApplication" value="STOPPED" />
-              <entry key="ReportesApplication" value="STOPPED" />
-              <entry key="UsuariosApplication" value="STOPPED" />
-            </map>
-          </value>
-        </entry>
-      </map>
     </option>
   </component>
   <component name="RunManager" selected="Spring Boot.AlertasApplication">
@@ -288,7 +261,12 @@
       <workItem from="1775973001288" duration="628000" />
       <workItem from="1776114570395" duration="3639000" />
       <workItem from="1776129411362" duration="2895000" />
-      <workItem from="1776132356997" duration="2282000" />
+      <workItem from="1776132356997" duration="8624000" />
+      <workItem from="1777140310354" duration="8000" />
+      <workItem from="1777142504515" duration="4557000" />
+      <workItem from="1777153757439" duration="3392000" />
+      <workItem from="1778182360677" duration="3884000" />
+      <workItem from="1778610605106" duration="3118000" />
     </task>
     <servers />
   </component>

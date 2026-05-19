@@ -1,57 +1,79 @@
 package com.bomberos.alertas;
 
-import static org.mockito.Mockito.*;
-import static org.junit.jupiter.api.Assertions.*;
-
 import com.bomberos.alertas.controller.AlertaController;
-import com.bomberos.alertas.model.Alerta;
-import com.bomberos.alertas.repository.AlertaRepository;
+import com.bomberos.alertas.dto.AlertaRequestDTO;
+import com.bomberos.alertas.dto.AlertaResponseDTO;
+import com.bomberos.alertas.service.AlertasService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+
 @ExtendWith(MockitoExtension.class)
-class AlertaControllerTest {
+public class AlertaControllerTest {
 
     @Mock
-    private AlertaRepository alertaRepository; // Simulamos la BD
+    private AlertasService alertasService;
 
     @InjectMocks
-    private AlertaController alertaController; // Inyectamos en el controlador
+    private AlertaController alertaController;
 
     @Test
-    void testObtenerTodasLasAlertas() {
-        // 1. GIVEN (Configuración)
-        Alerta alerta1 = new Alerta();
-        // alerta1.setId(1L); // Activa esto según tus campos reales
+    public void testObtenerAlertas() {
+        // 1. Arrange: Preparamos los datos simulados usando DTOs
+        AlertaResponseDTO dto = new AlertaResponseDTO();
+        dto.setId(1L);
+        dto.setTipoAlerta("INCENDIO");
+        dto.setMensaje("Fuego estructural detectado");
+        dto.setSeveridad("ALTA");
+        dto.setFechaCreacion(LocalDateTime.now());
 
-        Alerta alerta2 = new Alerta();
-        // alerta2.setId(2L);
+        when(alertasService.obtenerAlertas()).thenReturn(Arrays.asList(dto));
 
-        when(alertaRepository.findAll()).thenReturn(Arrays.asList(alerta1, alerta2));
+        // 2. Act: Llamamos al método del controlador
+        List<AlertaResponseDTO> respuesta = alertaController.obtenerAlertas();
 
-        // 2. WHEN (Ejecución)
-        List<Alerta> resultado = alertaController.obtenerAlertas(); // Cambia el nombre del método si en tu controller se llama distinto
-
-        // 3. THEN (Verificación)
-        assertNotNull(resultado);
-        assertEquals(2, resultado.size());
-        verify(alertaRepository, times(1)).findAll();
+        // 3. Assert: Verificamos que responda correctamente
+        assertNotNull(respuesta);
+        assertEquals(1, respuesta.size());
+        assertEquals("INCENDIO", respuesta.get(0).getTipoAlerta());
+        assertEquals("ALTA", respuesta.get(0).getSeveridad());
     }
 
     @Test
-    void testCrearAlerta() {
-        Alerta nuevaAlerta = new Alerta();
+    public void testCrearAlerta() {
+        // 1. Arrange: Preparamos el RequestDTO que "enviaría el usuario"
+        AlertaRequestDTO request = new AlertaRequestDTO();
+        request.setTipoAlerta("CLIMA");
+        request.setMensaje("Alerta de vientos fuertes");
+        request.setSeveridad("MEDIA");
 
-        when(alertaRepository.save(any(Alerta.class))).thenReturn(nuevaAlerta);
+        // Preparamos el ResponseDTO que devolvería el servicio
+        AlertaResponseDTO response = new AlertaResponseDTO();
+        response.setId(2L);
+        response.setTipoAlerta("CLIMA");
+        response.setMensaje("Alerta de vientos fuertes");
+        response.setSeveridad("MEDIA");
+        response.setFechaCreacion(LocalDateTime.now());
 
-        Alerta resultado = alertaController.crearAlerta(nuevaAlerta); // Cambia el nombre del método si en tu controller se llama distinto
+        when(alertasService.crearAlerta(any(AlertaRequestDTO.class))).thenReturn(response);
 
+        // 2. Act
+        AlertaResponseDTO resultado = alertaController.crearAlerta(request);
+
+        // 3. Assert
         assertNotNull(resultado);
-        verify(alertaRepository).save(nuevaAlerta);
+        assertEquals(2L, resultado.getId());
+        assertEquals("CLIMA", resultado.getTipoAlerta());
     }
 }

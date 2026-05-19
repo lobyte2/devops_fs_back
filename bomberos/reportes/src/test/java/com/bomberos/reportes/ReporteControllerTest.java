@@ -1,39 +1,51 @@
 package com.bomberos.reportes;
 
-import static org.mockito.Mockito.*;
-import static org.junit.jupiter.api.Assertions.*;
-
 import com.bomberos.reportes.controller.ReporteController;
-import com.bomberos.reportes.model.Reporte;
-import com.bomberos.reportes.repository.ReporteRepository;
+import com.bomberos.reportes.dto.ReporteResponseDTO;
+import com.bomberos.reportes.service.ReporteService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.ResponseEntity;
+
 import java.util.Arrays;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.when;
+
 @ExtendWith(MockitoExtension.class)
-class ReporteControllerTest {
+public class ReporteControllerTest {
 
     @Mock
-    private ReporteRepository reporteRepository;
+    private ReporteService reporteService;
 
     @InjectMocks
     private ReporteController reporteController;
 
     @Test
-    void testObtenerTodosLosReportes() {
-        Reporte reporte1 = new Reporte();
-        Reporte reporte2 = new Reporte();
+    public void testListarReportes() {
+        // 1. Arrange (Preparar los datos de prueba usando DTOs)
+        ReporteResponseDTO reporteDto = new ReporteResponseDTO();
+        reporteDto.setId("12345");
+        reporteDto.setDescripcion("Incendio en prueba unitaria");
+        reporteDto.setEstado("ACTIVO");
 
-        when(reporteRepository.findAll()).thenReturn(Arrays.asList(reporte1, reporte2));
+        List<ReporteResponseDTO> listaSimulada = Arrays.asList(reporteDto);
 
-        List<Reporte> resultado = reporteController.listarReportes();
+        // Le decimos al servicio falso (Mock) qué debe responder
+        when(reporteService.obtenerTodos()).thenReturn(listaSimulada);
 
-        assertNotNull(resultado);
-        assertEquals(2, resultado.size());
-        verify(reporteRepository, times(1)).findAll();
+        // 2. Act (Ejecutar el método del controlador)
+        ResponseEntity<List<ReporteResponseDTO>> respuesta = reporteController.listarReportes();
+
+        // 3. Assert (Verificar que el resultado es correcto)
+        assertNotNull(respuesta.getBody());
+        assertEquals(200, respuesta.getStatusCodeValue());
+        assertEquals(1, respuesta.getBody().size());
+        assertEquals("Incendio en prueba unitaria", respuesta.getBody().get(0).getDescripcion());
     }
 }

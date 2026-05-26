@@ -6,8 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="c107d25a-5a9a-4b67-8e0d-eb978f778574" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/alertas/src/main/java/com/bomberos/alertas/controller/AlertaController.java" beforeDir="false" afterPath="$PROJECT_DIR$/alertas/src/main/java/com/bomberos/alertas/controller/AlertaController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/alertas/src/main/java/com/bomberos/alertas/service/AlertasService.java" beforeDir="false" afterPath="$PROJECT_DIR$/alertas/src/main/java/com/bomberos/alertas/service/AlertasService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,10 +66,11 @@
     &quot;Spring Boot.ReportesApplication.executor&quot;: &quot;Run&quot;,
     &quot;Spring Boot.UsuariosApplication.executor&quot;: &quot;Run&quot;,
     &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;bk1&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/s-f-d/OneDrive/Escritorio/Proyecto_municipalidad/bomberos&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -267,6 +266,8 @@
       <workItem from="1777153757439" duration="3392000" />
       <workItem from="1778182360677" duration="3884000" />
       <workItem from="1778610605106" duration="3118000" />
+      <workItem from="1779830363724" duration="25000" />
+      <workItem from="1779830414041" duration="13000" />
     </task>
     <servers />
   </component>

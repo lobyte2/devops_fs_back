@@ -1,10 +1,12 @@
 package com.bomberos.usuarios.service;
 
+import com.bomberos.usuarios.dto.AuthResponseDTO; // <-- Agregado para enviar el Token
 import com.bomberos.usuarios.dto.LoginRequestDTO;
 import com.bomberos.usuarios.dto.UsuarioRequestDTO;
 import com.bomberos.usuarios.dto.UsuarioResponseDTO;
 import com.bomberos.usuarios.model.Usuario;
 import com.bomberos.usuarios.repository.UsuarioRepository;
+import com.bomberos.usuarios.security.JwtUtil; // <-- Agregado para usar el generador de Token
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +20,9 @@ public class UsuarioService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private JwtUtil jwtUtil; // <-- Inyectamos el componente JWT
 
     private UsuarioResponseDTO mapToDTO(Usuario usuario) {
         UsuarioResponseDTO dto = new UsuarioResponseDTO();
@@ -55,10 +60,19 @@ public class UsuarioService {
         usuarioRepository.deleteById(UUID.fromString(id));
     }
 
-    public UsuarioResponseDTO login(LoginRequestDTO credenciales) {
+    // <-- MÉTODO LOGIN MODIFICADO PARA DEVOLVER EL TOKEN
+    public AuthResponseDTO login(LoginRequestDTO credenciales) {
         Optional<Usuario> usuarioOpt = usuarioRepository.findByEmail(credenciales.getEmail());
+
         if (usuarioOpt.isPresent() && usuarioOpt.get().getPassword().equals(credenciales.getPassword())) {
-            return mapToDTO(usuarioOpt.get());
+            Usuario usuario = usuarioOpt.get();
+
+            // AUTENTICACIÓN EXITOSA: Ya sabemos quién es.
+            // Generamos la credencial digital (Token) que incluye su rol (Autorización)
+            String token = jwtUtil.generarToken(usuario.getEmail(), usuario.getRol());
+
+            // Retornamos el DTO que incluye el email, el rol y el Token
+            return new AuthResponseDTO(usuario.getEmail(), usuario.getRol(), token);
         }
         return null; // Retorna nulo si fallan las credenciales
     }

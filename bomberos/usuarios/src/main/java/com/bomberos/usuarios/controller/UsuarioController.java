@@ -1,5 +1,6 @@
 package com.bomberos.usuarios.controller;
 
+import com.bomberos.usuarios.dto.AuthResponseDTO; //Importación para manejar el Token
 import com.bomberos.usuarios.dto.LoginRequestDTO;
 import com.bomberos.usuarios.dto.UsuarioRequestDTO;
 import com.bomberos.usuarios.dto.UsuarioResponseDTO;
@@ -36,10 +37,14 @@ public class UsuarioController {
 
     @PostMapping("/login")
     public ResponseEntity<?> loginUsuario(@RequestBody LoginRequestDTO credenciales) {
-        UsuarioResponseDTO response = usuarioService.login(credenciales);
+        // AUTENTICACIÓN: Recibe la credencial digital generada por el servicio
+        AuthResponseDTO response = usuarioService.login(credenciales);
+
         if (response != null) {
+            // Retorna el objeto AuthResponseDTO con el Token en formato JSON
             return ResponseEntity.ok(response);
         }
+
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciales inválidas");
     }
 }

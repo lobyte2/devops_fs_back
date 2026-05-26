@@ -1,0 +1,32 @@
+package com.bomberos.usuarios.security;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.web.SecurityFilterChain;
+
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig {
+
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+                .csrf(csrf -> csrf.disable()) // Desactiva la protección CSRF para permitir peticiones POST desde React
+                .authorizeHttpRequests(auth -> auth
+                        // Dejamos públicas las rutas de login, registro y la documentación de Swagger
+                        .requestMatchers(
+                                "/usuarios/login",
+                                "/usuarios",
+                                "/v3/api-docs/**",
+                                "/swagger-ui/**",
+                                "/swagger-ui.html"
+                        ).permitAll()
+
+                        // Cualquier otra petición a este microservicio pedirá el Token
+                        .anyRequest().authenticated()
+                );
+        return http.build();
+    }
+}

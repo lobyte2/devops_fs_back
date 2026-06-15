@@ -11,6 +11,7 @@ import com.bomberos.usuarios.dto.UsuarioResponseDTO;
 import com.bomberos.usuarios.repository.UsuarioRepository;
 
 import com.bomberos.usuarios.service.UsuarioService;
+import com.bomberos.usuarios.security.JwtUtil;
 
 import org.junit.jupiter.api.Test;
 
@@ -48,7 +49,8 @@ public class UsuarioServiceTest {
 
     private UsuarioRepository usuarioRepository;
 
-
+    @Mock
+    private JwtUtil jwtUtil;
 
     @InjectMocks
 
@@ -142,4 +144,55 @@ public class UsuarioServiceTest {
 
     }
 
+    @Test
+    void login_CredencialesCorrectas_RetornaAuth() {
+        com.bomberos.usuarios.dto.LoginRequestDTO creds = new com.bomberos.usuarios.dto.LoginRequestDTO();
+        creds.setEmail("test@mail.com");
+        creds.setPassword("1234");
+        
+        Usuario usuario = new Usuario();
+        usuario.setEmail("test@mail.com");
+        usuario.setPassword("1234");
+        usuario.setRol("ADMIN");
+        
+        when(usuarioRepository.findByEmail("test@mail.com")).thenReturn(java.util.Optional.of(usuario));
+        when(jwtUtil.generarToken("test@mail.com", "ADMIN")).thenReturn("token123");
+        
+        var resultado = usuarioService.login(creds);
+        
+        assertNotNull(resultado);
+        assertEquals("token123", resultado.getToken());
+    }
+
+    @Test
+    void login_CredencialesIncorrectas_RetornaNull() {
+        com.bomberos.usuarios.dto.LoginRequestDTO creds = new com.bomberos.usuarios.dto.LoginRequestDTO();
+        creds.setEmail("test@mail.com");
+        creds.setPassword("mala");
+        
+        Usuario usuario = new Usuario();
+        usuario.setEmail("test@mail.com");
+        usuario.setPassword("1234");
+        
+        when(usuarioRepository.findByEmail("test@mail.com")).thenReturn(java.util.Optional.of(usuario));
+        
+        var resultado = usuarioService.login(creds);
+        
+        assertNull(resultado);
+    }
+
+    @Test
+    void crearUsuario_ConRol_PersisteEnBaseDeDatos() {
+        com.bomberos.usuarios.dto.UsuarioRequestDTO requestDTO = new com.bomberos.usuarios.dto.UsuarioRequestDTO();
+        requestDTO.setRol("BOMBERO");
+        Usuario usuarioEntidad = new Usuario();
+        usuarioEntidad.setId(UUID.randomUUID());
+
+        when(usuarioRepository.save(any(Usuario.class))).thenReturn(usuarioEntidad);
+
+        var resultado = usuarioService.crearUsuario(requestDTO);
+
+        assertNotNull(resultado);
+        verify(usuarioRepository).save(any(Usuario.class));
+    }
 }

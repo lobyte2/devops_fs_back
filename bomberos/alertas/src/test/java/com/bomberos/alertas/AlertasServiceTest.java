@@ -112,4 +112,14 @@ public class AlertasServiceTest {
 
     }
 
+    @Test
+    void eliminarAlerta_DeberiaLlamarAlRepositorio() {
+        Long id = 1L;
+        doNothing().when(alertaRepository).deleteById(id);
+
+        alertasService.eliminarAlerta(id);
+
+        verify(alertaRepository, times(1)).deleteById(id);
+    }
+
 }

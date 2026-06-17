@@ -76,4 +76,14 @@ public class AlertaControllerTest {
         assertEquals(2L, resultado.getId());
         assertEquals("CLIMA", resultado.getTipoAlerta());
     }
+
+    @Test
+    public void testEliminarAlerta() {
+        Long id = 1L;
+        org.mockito.Mockito.doNothing().when(alertasService).eliminarAlerta(id);
+
+        alertaController.eliminarAlerta(id);
+
+        org.mockito.Mockito.verify(alertasService, org.mockito.Mockito.times(1)).eliminarAlerta(id);
+    }
 }

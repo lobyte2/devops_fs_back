@@ -1,8 +1,10 @@
 package com.bomberos.usuarios.dto;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class UsuarioResponseDTO {
+public class UsuarioResponseDTO implements Serializable {
+    private static final long serialVersionUID = 1L;
     private String id; // Transformaremos el UUID a String
     private String nombre;
     private String email;

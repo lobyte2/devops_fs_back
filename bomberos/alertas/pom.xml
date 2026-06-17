@@ -37,6 +37,14 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-amqp</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 			<scope>runtime</scope>
@@ -67,9 +75,13 @@
 				<version>0.8.12</version>
 				<configuration>
 					<excludes>
-						<!-- Ajusta estos paquetes al nombre de TU proyecto -->
-						<exclude>cl/duoc/tuprojecto/TuClaseApplication.class</exclude>
-						<exclude>cl/duoc/tuprojecto/controller/*.class</exclude>
+						<exclude>**/*Application.class</exclude>
+						<exclude>**/dto/**</exclude>
+						<exclude>**/exception/**</exclude>
+						<exclude>**/model/**</exclude>
+						<exclude>**/config/**</exclude>
+						<exclude>**/security/**</exclude>
+						<exclude>**/messaging/**</exclude>
 					</excludes>
 				</configuration>
 				<executions>
@@ -94,12 +106,12 @@
 										<limit>
 											<counter>LINE</counter>
 											<value>COVEREDRATIO</value>
-											<minimum>0.80</minimum>
+											<minimum>0.85</minimum>
 										</limit>
 										<limit>
 											<counter>BRANCH</counter>
 											<value>COVEREDRATIO</value>
-											<minimum>0.80</minimum>
+											<minimum>0.85</minimum>
 										</limit>
 									</limits>
 								</rule>

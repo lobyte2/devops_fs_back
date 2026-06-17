@@ -50,6 +50,8 @@ services:
     depends_on:
       eureka-server:
         condition: service_healthy
+      redis:
+        condition: service_started
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://localhost:8081/actuator/health || exit 1"]
       interval: 10s
@@ -68,6 +70,7 @@ services:
     environment:
       SERVER_PORT: 8080
       EUREKA_URL: http://eureka-server:8761/eureka/
+      RABBITMQ_HOST: rabbitmq
     depends_on:
       eureka-server:
         condition: service_healthy
@@ -110,6 +113,7 @@ services:
     environment:
       SERVER_PORT: 8083
       EUREKA_URL: http://eureka-server:8761/eureka/
+      RABBITMQ_HOST: rabbitmq
     depends_on:
       eureka-server:
         condition: service_healthy
@@ -131,6 +135,7 @@ services:
     environment:
       SERVER_PORT: 8084
       EUREKA_URL: http://eureka-server:8761/eureka/
+      RABBITMQ_HOST: rabbitmq
     depends_on:
       eureka-server:
         condition: service_healthy
@@ -139,6 +144,36 @@ services:
       interval: 10s
       timeout: 5s
       retries: 10
+    restart: unless-stopped
+    networks:
+      - bomberos-net
+
+  # 8. Redis Caché
+  redis:
+    image: redis:7-alpine
+    container_name: redis-cache
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+    networks:
+      - bomberos-net
+
+  # 9. RabbitMQ Message Broker
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq-broker
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 20s
     restart: unless-stopped
     networks:
       - bomberos-net

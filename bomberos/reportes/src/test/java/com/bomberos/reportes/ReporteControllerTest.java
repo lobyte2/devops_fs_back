@@ -27,6 +27,9 @@ public class ReporteControllerTest {
     @Mock
     private ReporteService reporteService;
 
+    @Mock
+    private com.bomberos.reportes.messaging.ReporteProducer reporteProducer;
+
     @InjectMocks
     private ReporteController reporteController;
 

@@ -70,4 +70,43 @@ class UsuarioControllerTest {
         assertEquals("Maria", resultado.getNombre());
         verify(usuarioService, times(1)).crearUsuario(any(UsuarioRequestDTO.class));
     }
+
+    @Test
+    void testEliminarUsuario() {
+        String id = "uuid-test";
+        doNothing().when(usuarioService).eliminarUsuario(id);
+
+        var resultado = usuarioController.eliminarUsuario(id);
+
+        assertEquals(204, resultado.getStatusCode().value());
+        verify(usuarioService, times(1)).eliminarUsuario(id);
+    }
+
+    @Test
+    void testLoginUsuario_Exitoso() {
+        com.bomberos.usuarios.dto.LoginRequestDTO credenciales = new com.bomberos.usuarios.dto.LoginRequestDTO();
+        credenciales.setEmail("test@mail.com");
+        credenciales.setPassword("1234");
+        
+        com.bomberos.usuarios.dto.AuthResponseDTO authResponse = new com.bomberos.usuarios.dto.AuthResponseDTO("test@mail.com", "ADMIN", "token123");
+        when(usuarioService.login(any(com.bomberos.usuarios.dto.LoginRequestDTO.class))).thenReturn(authResponse);
+
+        var resultado = usuarioController.loginUsuario(credenciales);
+
+        assertEquals(200, resultado.getStatusCode().value());
+        assertNotNull(resultado.getBody());
+    }
+
+    @Test
+    void testLoginUsuario_Fallido() {
+        com.bomberos.usuarios.dto.LoginRequestDTO credenciales = new com.bomberos.usuarios.dto.LoginRequestDTO();
+        credenciales.setEmail("test@mail.com");
+        credenciales.setPassword("mala");
+        
+        when(usuarioService.login(any(com.bomberos.usuarios.dto.LoginRequestDTO.class))).thenReturn(null);
+
+        var resultado = usuarioController.loginUsuario(credenciales);
+
+        assertEquals(401, resultado.getStatusCode().value());
+    }
 }

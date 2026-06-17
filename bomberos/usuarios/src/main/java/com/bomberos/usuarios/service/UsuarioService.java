@@ -4,6 +4,7 @@ import com.bomberos.usuarios.dto.AuthResponseDTO; // <-- Agregado para enviar el
 import com.bomberos.usuarios.dto.LoginRequestDTO;
 import com.bomberos.usuarios.dto.UsuarioRequestDTO;
 import com.bomberos.usuarios.dto.UsuarioResponseDTO;
+import com.bomberos.usuarios.exception.ResourceNotFoundException; // <-- Import de la excepción agregado
 import com.bomberos.usuarios.model.Usuario;
 import com.bomberos.usuarios.repository.UsuarioRepository;
 import com.bomberos.usuarios.security.JwtUtil; // <-- Agregado para usar el generador de Token
@@ -89,7 +90,11 @@ public class UsuarioService {
      */
     @CacheEvict(value = "usuarios", allEntries = true)
     public void eliminarUsuario(String id) {
-        usuarioRepository.deleteById(UUID.fromString(id));
+        UUID uuid = UUID.fromString(id);
+        if (!usuarioRepository.existsById(uuid)) {
+            throw new ResourceNotFoundException("Usuario no encontrado con ID: " + id); // <-- Verificación y excepción agregadas
+        }
+        usuarioRepository.deleteById(uuid);
     }
 
 

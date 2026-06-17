@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    // Maneja la excepciÃ³n cuando no se encuentra un recurso (Devuelve 404)
+    // Maneja la excepción cuando no se encuentra un recurso (Devuelve 404)
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleResourceNotFoundException(ResourceNotFoundException ex, HttpServletRequest request) {
         ErrorResponse error = new ErrorResponse(
@@ -24,7 +24,7 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
 
-    // Maneja cualquier otra excepciÃ³n no controlada (Devuelve 500)
+    // Maneja cualquier otra excepción no controlada (Devuelve 500)
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGlobalException(Exception ex, HttpServletRequest request) {
         ErrorResponse error = new ErrorResponse(

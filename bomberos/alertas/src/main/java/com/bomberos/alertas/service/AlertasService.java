@@ -2,6 +2,7 @@ package com.bomberos.alertas.service;
 
 import com.bomberos.alertas.dto.AlertaRequestDTO;
 import com.bomberos.alertas.dto.AlertaResponseDTO;
+import com.bomberos.alertas.exception.ResourceNotFoundException; // <-- Import de la excepción agregado
 import com.bomberos.alertas.model.Alerta;
 import com.bomberos.alertas.repository.AlertaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +39,7 @@ public class AlertasService {
     }
 
     /**
-     * Recupera todas las alertas almacenadas en el sistema y las transforma en una lista de DTOs.
+     * Recupera todas las alertas almacenadas en el sistema y las transforman en una lista de DTOs.
      *
      * @return Lista de objetos AlertaResponseDTO.
      */
@@ -72,5 +73,10 @@ public class AlertasService {
      *
      * @param id Identificador único de la alerta (tipo Long).
      */
-    public void eliminarAlerta(Long id) { alertaRepository.deleteById(id); }
+    public void eliminarAlerta(Long id) {
+        if (!alertaRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Alerta no encontrada con ID: " + id); // <-- Verificación y excepción agregadas
+        }
+        alertaRepository.deleteById(id);
+    }
 }

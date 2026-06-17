@@ -2,6 +2,7 @@ package com.bomberos.reportes.service;
 
 import com.bomberos.reportes.dto.ReporteRequestDTO;
 import com.bomberos.reportes.dto.ReporteResponseDTO;
+import com.bomberos.reportes.exception.ResourceNotFoundException; // <-- Import de la excepción agregado
 import com.bomberos.reportes.model.Reporte;
 import com.bomberos.reportes.repository.ReporteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,7 +75,7 @@ public class ReporteService {
     // 3. Actualizar (Recibe DTO, Retorna DTO)
     public ReporteResponseDTO actualizarReporte(String id, ReporteRequestDTO request) {
         Reporte reporteExistente = reporteRepository.findById(UUID.fromString(id))
-                .orElseThrow(() -> new RuntimeException("Reporte no encontrado con ID: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Reporte no encontrado con ID: " + id)); // <-- Excepción personalizada aquí
 
         reporteExistente.setDescripcion(request.getDescripcion());
         reporteExistente.setLatitud(request.getLatitud());
@@ -89,7 +90,7 @@ public class ReporteService {
     public void eliminarReporte(String id) {
         UUID uuid = UUID.fromString(id);
         if (!reporteRepository.existsById(uuid)) {
-            throw new RuntimeException("Reporte no encontrado con ID: " + id);
+            throw new ResourceNotFoundException("Reporte no encontrado con ID: " + id); // <-- Excepción personalizada aquí
         }
         reporteRepository.deleteById(uuid);
     }

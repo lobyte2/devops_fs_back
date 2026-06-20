@@ -27,6 +27,9 @@ jobs:
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         run: |
+          # Entramos a la carpeta principal del backend
+          cd bomberos
+          
           SERVICIOS=("eureka-server" "api-gateway" "usuarios" "alertas" "historial" "monitoreo" "reportes")
           
           for SERVICE in "${SERVICIOS[@]}"; do
@@ -39,5 +42,6 @@ jobs:
             docker build -t $ECR_REGISTRY/$SERVICE:latest .
             docker push $ECR_REGISTRY/$SERVICE:latest
           
+            # Volvemos a la carpeta 'bomberos' para el siguiente microservicio
             cd ..
           done

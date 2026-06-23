@@ -7,6 +7,10 @@ spring:
   cloud:
     compatibility-verifier:
       enabled: false
+    # Obligamos a usar la red privada de AWS (VPC)
+    inetutils:
+      preferred-networks:
+        - 10.0
   datasource:
     url: jdbc:postgresql://aws-1-us-east-1.pooler.supabase.com:5432/postgres
     username: postgres.geijpkyhyeguxhsoynvv
@@ -29,9 +33,7 @@ eureka:
     service-url:
       defaultZone: ${EUREKA_URL:http://internal-bomberos-internal-alb-1797992975.us-east-1.elb.amazonaws.com:8761/eureka/}
   instance:
-    prefer-ip-address: false
-    hostname: ${HOSTNAME}
-    instance-id: ${HOSTNAME}:${spring.application.name}:${random.uuid}
+    prefer-ip-address: true
 
 management:
   endpoints:
